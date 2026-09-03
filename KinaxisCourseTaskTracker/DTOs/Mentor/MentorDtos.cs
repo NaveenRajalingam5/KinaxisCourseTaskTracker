@@ -37,10 +37,6 @@ public class LearnerCourseProgressDto
 {
     public int CourseId { get; set; }
     public string CourseTitle { get; set; } = string.Empty;
-    public string Category { get; set; } = string.Empty;
-    public string Level { get; set; } = string.Empty;
-    public string? Author1 { get; set; } = string.Empty;
-    public string? Author2 { get; set; } = string.Empty;
     public DateTime EnrolledAt { get; set; }
     public string Status { get; set; } = string.Empty;
     public DateTime? CompletedAt { get; set; }

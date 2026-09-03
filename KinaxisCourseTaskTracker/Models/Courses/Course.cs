@@ -5,11 +5,7 @@ public class Course
     public int Id { get; set; }
     public string Title { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
-    public string Category { get; set; } = string.Empty;
-    public string Level { get; set; } = string.Empty;
     public int DurationMinutes { get; set; }
-    public string? Author1 { get; set; } = string.Empty;
-    public string? Author2 { get; set; } = string.Empty;
     public bool IsActive { get; set; } = true;
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 

@@ -123,10 +123,6 @@ public class MentorService : IMentorService
             {
                 CourseId = e.CourseId,
                 CourseTitle = e.Course.Title,
-                Category = e.Course.Category,
-                Level = e.Course.Level,
-                Author1 = e.Course.Author1,
-                Author2 = e.Course.Author2,
                 EnrolledAt = e.EnrolledAt,
                 Status = e.Status.ToString(),
                 CompletedAt = e.CompletedAt,

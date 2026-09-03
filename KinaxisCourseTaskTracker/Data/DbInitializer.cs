@@ -76,15 +76,19 @@ public static class DbInitializer
         {
             Title = "Kinaxis RapidResponse Fundamentals",
             Description = "Master core concepts of Kinaxis RapidResponse, concurrent planning, and supply chain scenario modeling.",
-            Category = "Supply Chain Management",
-            Level = "Beginner",
             DurationMinutes = 180,
-            Author1 = "Kinaxis Lead Architect",
-            Author2 = "Supply Chain Specialist",
             IsActive = true,
             CreatedAt = DateTime.UtcNow
         };
-        context.Courses.Add(course1);
+        var course2 = new Course
+        {
+            Title = "Advanced Kinaxis RapidResponse Workflow Design",
+            Description = "Advanced Kinaxis RapidResponse workflow design, custom calculations, and scenario analysis.",
+            DurationMinutes = 240,
+            IsActive = true,
+            CreatedAt = DateTime.UtcNow
+        };
+        context.Courses.AddRange(course1, course2);
         await context.SaveChangesAsync();
 
         var lesson1 = new Lesson
@@ -103,8 +107,7 @@ public static class DbInitializer
             LessonId = lesson1.Id,
             Title = "Topic 1.1: Concurrent Planning Overview",
             Description = "Introduction to real-time synchronization between supply and demand nodes.",
-            Order = 1,
-            DurationMinutes = 20
+            Order = 1
         };
 
         var topic2 = new Topic
@@ -112,8 +115,7 @@ public static class DbInitializer
             LessonId = lesson1.Id,
             Title = "Topic 1.2: Architecture and User Interface",
             Description = "Navigating workbooks, data tables, and user access levels in RapidResponse.",
-            Order = 2,
-            DurationMinutes = 25
+            Order = 2
         };
 
         context.Topics.AddRange(topic1, topic2);
@@ -133,8 +135,7 @@ public static class DbInitializer
             LessonId = lesson2.Id,
             Title = "Topic 2.1: Part Master & Bill of Materials",
             Description = "Exploring parts, suppliers, lead times, and parent-child part hierarchies.",
-            Order = 1,
-            DurationMinutes = 30
+            Order = 1
         };
 
         var topic4 = new Topic
@@ -142,8 +143,7 @@ public static class DbInitializer
             LessonId = lesson2.Id,
             Title = "Topic 2.2: Demand and Forecast Tables",
             Description = "Understanding sales orders, historical shipments, and statistical forecast series.",
-            Order = 2,
-            DurationMinutes = 35
+            Order = 2
         };
 
         context.Topics.AddRange(topic3, topic4);

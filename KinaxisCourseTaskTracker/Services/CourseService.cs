@@ -31,11 +31,7 @@ public class CourseService : ICourseService
             Id = c.Id,
             Title = c.Title,
             Description = c.Description,
-            Category = c.Category,
-            Level = c.Level,
             DurationMinutes = c.DurationMinutes,
-            Author1 = c.Author1,
-            Author2 = c.Author2,
             IsActive = c.IsActive,
             LessonCount = c.Lessons.Count,
             TaskCount = c.Tasks.Count,
@@ -81,11 +77,7 @@ public class CourseService : ICourseService
             Id = course.Id,
             Title = course.Title,
             Description = course.Description,
-            Category = course.Category,
-            Level = course.Level,
             DurationMinutes = course.DurationMinutes,
-            Author1 = course.Author1,
-            Author2 = course.Author2,
             IsEnrolled = isEnrolled,
             EnrollmentStatus = enrollmentStatus,
             ProgressPercentage = progressPercentage,
@@ -102,11 +94,7 @@ public class CourseService : ICourseService
         {
             Title = createDto.Title,
             Description = createDto.Description,
-            Category = createDto.Category,
-            Level = createDto.Level,
             DurationMinutes = createDto.DurationMinutes,
-            Author1 = createDto.Author1,
-            Author2 = createDto.Author2,
             IsActive = true,
             CreatedAt = DateTime.UtcNow
         };
@@ -119,11 +107,7 @@ public class CourseService : ICourseService
             Id = course.Id,
             Title = course.Title,
             Description = course.Description,
-            Category = course.Category,
-            Level = course.Level,
             DurationMinutes = course.DurationMinutes,
-            Author1 = course.Author1,
-            Author2 = course.Author2,
             IsActive = course.IsActive,
             LessonCount = 0,
             TaskCount = 0,
@@ -138,11 +122,7 @@ public class CourseService : ICourseService
 
         course.Title = updateDto.Title;
         course.Description = updateDto.Description;
-        course.Category = updateDto.Category;
-        course.Level = updateDto.Level;
         course.DurationMinutes = updateDto.DurationMinutes;
-        course.Author1 = updateDto.Author1;
-        course.Author2 = updateDto.Author2;
         course.IsActive = updateDto.IsActive;
 
         await _courseRepository.UpdateAsync(course);
@@ -153,11 +133,7 @@ public class CourseService : ICourseService
             Id = course.Id,
             Title = course.Title,
             Description = course.Description,
-            Category = course.Category,
-            Level = course.Level,
             DurationMinutes = course.DurationMinutes,
-            Author1 = course.Author1,
-            Author2 = course.Author2,
             IsActive = course.IsActive,
             LessonCount = course.Lessons.Count,
             TaskCount = course.Tasks.Count,

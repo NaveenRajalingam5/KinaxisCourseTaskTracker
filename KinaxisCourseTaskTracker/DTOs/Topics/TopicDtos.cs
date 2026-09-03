@@ -9,7 +9,6 @@ public class TopicDto
     public string Title { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public int Order { get; set; }
-    public int DurationMinutes { get; set; }
 }
 
 public class CreateTopicDto
@@ -23,8 +22,6 @@ public class CreateTopicDto
     public string Description { get; set; } = string.Empty;
 
     public int Order { get; set; }
-
-    public int DurationMinutes { get; set; }
 }
 
 public class UpdateTopicDto
@@ -35,6 +32,4 @@ public class UpdateTopicDto
     public string Description { get; set; } = string.Empty;
 
     public int Order { get; set; }
-
-    public int DurationMinutes { get; set; }
 }

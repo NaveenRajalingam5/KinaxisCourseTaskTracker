@@ -41,8 +41,7 @@ public class TopicService : ITopicService
             LessonId = createDto.LessonId,
             Title = createDto.Title,
             Description = createDto.Description,
-            Order = createDto.Order,
-            DurationMinutes = createDto.DurationMinutes
+            Order = createDto.Order
         };
 
         await _topicRepository.AddAsync(topic);
@@ -59,7 +58,6 @@ public class TopicService : ITopicService
         topic.Title = updateDto.Title;
         topic.Description = updateDto.Description;
         topic.Order = updateDto.Order;
-        topic.DurationMinutes = updateDto.DurationMinutes;
 
         await _topicRepository.UpdateAsync(topic);
         await _topicRepository.SaveChangesAsync();
@@ -84,8 +82,7 @@ public class TopicService : ITopicService
             LessonId = topic.LessonId,
             Title = topic.Title,
             Description = topic.Description,
-            Order = topic.Order,
-            DurationMinutes = topic.DurationMinutes
+            Order = topic.Order
         };
     }
 }

@@ -83,8 +83,7 @@ public class LessonService : ILessonService
                     LessonId = t.LessonId,
                     Title = t.Title,
                     Description = t.Description,
-                    Order = t.Order,
-                    DurationMinutes = t.DurationMinutes
+                    Order = t.Order
                 }).ToList()
             });
         }
