@@ -1,0 +1,22 @@
+## .NET Core & Visual Studio ignores
+bin/
+obj/
+*.user
+*.userosscache
+*.sln.docstates
+.vs/
+.idea/
+.vscode/
+
+## Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa]rms/
+[Aa]rm64/
+build/
+
+## OS generated files
+.DS_Store
+Thumbs.db

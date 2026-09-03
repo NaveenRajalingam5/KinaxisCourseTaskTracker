@@ -1,0 +1,276 @@
+@baseUrl = http://localhost:5089
+
+### ==================================================
+### 1. AUTHENTICATION & LOGIN FLOW
+### ==================================================
+
+### 1.1 Login as Admin
+# @name adminLogin
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@supplychainz.in",
+  "password": "AdminPass123!"
+}
+
+### Store Admin Token from Login Response
+@adminToken = {{adminLogin.response.body.token}}
+
+
+### 1.2 Login as Learner (John Learner)
+# @name learnerLogin
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "john.learner@supplychainz.in",
+  "password": "LearnerPass123!"
+}
+
+### Store Learner Token
+@learnerToken = {{learnerLogin.response.body.token}}
+
+
+### 1.3 Login as Training Mentor (Sarah Mentor)
+# @name mentorLogin
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "mentor@supplychainz.in",
+  "password": "MentorPass123!"
+}
+
+### Store Mentor Token
+@mentorToken = {{mentorLogin.response.body.token}}
+
+
+### 1.4 Admin Invites a New User (Status = Invited)
+POST {{baseUrl}}/api/auth/register/invite
+Content-Type: application/json
+Authorization: Bearer {{adminToken}}
+
+{
+  "name": "Alex SupplyChain",
+  "email": "alex.supplychain@supplychainz.in",
+  "department": "Inventory Management",
+  "role": "Learner"
+}
+
+
+### 1.5 Verify Email & Set Password (User Activation)
+POST {{baseUrl}}/api/auth/verify-email
+Content-Type: application/json
+
+{
+  "token": "REPLACE_WITH_HEX_TOKEN_FROM_SERVER_LOGS",
+  "setPassword": "NewLearnerPass123!"
+}
+
+
+### 1.6 Admin Creates Training Mentor Account
+POST {{baseUrl}}/api/auth/create-mentor
+Content-Type: application/json
+Authorization: Bearer {{adminToken}}
+
+{
+  "name": "David Mentor",
+  "email": "david.mentor@supplychainz.in",
+  "department": "Global Supply Chain Training",
+  "password": "MentorPass123!"
+}
+
+
+### ==================================================
+### 2. ADMIN USER & COURSE MANAGEMENT
+### ==================================================
+
+### 2.1 Admin: Get All Users
+GET {{baseUrl}}/api/users
+Authorization: Bearer {{adminToken}}
+
+
+### 2.2 Admin: Get Users Filtered by Role (Learners)
+GET {{baseUrl}}/api/users?role=Learner
+Authorization: Bearer {{adminToken}}
+
+
+### 2.3 Admin: Create a New Course
+POST {{baseUrl}}/api/courses
+Content-Type: application/json
+Authorization: Bearer {{adminToken}}
+
+{
+  "title": "Advanced RapidResponse Concurrent Planning",
+  "description": "Learn multi-site supply chain orchestration, demand sensing, and S&OP scenario planning.",
+  "category": "Advanced Supply Chain",
+  "level": "Intermediate",
+  "durationMinutes": 240
+}
+
+
+### 2.4 Admin: Create Lesson for Course
+POST {{baseUrl}}/api/lessons
+Content-Type: application/json
+Authorization: Bearer {{adminToken}}
+
+{
+  "courseId": 1,
+  "title": "Lesson 1: Demand Sensing & Forecasting Integration",
+  "description": "Integrate statistical forecasting models with RapidResponse demand buffers.",
+  "order": 1
+}
+
+
+### 2.5 Admin: Create Task for Course
+POST {{baseUrl}}/api/tasks
+Content-Type: application/json
+Authorization: Bearer {{adminToken}}
+
+{
+  "courseId": 1,
+  "lessonId": 1,
+  "title": "Task 1: Multi-Site Demand Simulation",
+  "description": "Execute a demand shift simulation across North America and Europe nodes.",
+  "dueDate": "2026-09-15T18:00:00Z",
+  "priority": "High"
+}
+
+
+### ==================================================
+### 3. LEARNER ENROLLMENT & LEARNING FLOW
+### ==================================================
+
+### 3.1 Learner: Browse Available Courses
+GET {{baseUrl}}/api/courses
+Authorization: Bearer {{learnerToken}}
+
+
+### 3.2 Learner: View Course Details (Course ID 1)
+GET {{baseUrl}}/api/courses/1
+Authorization: Bearer {{learnerToken}}
+
+
+### 3.3 Learner: Enroll in Course (Course ID 1)
+POST {{baseUrl}}/api/courses/1/enroll
+Authorization: Bearer {{learnerToken}}
+
+
+### 3.4 Learner: View Enrolled Courses (My Learning)
+GET {{baseUrl}}/api/learners/me/courses
+Authorization: Bearer {{learnerToken}}
+
+
+### 3.5 Learner: View Course Lessons (Course ID 1)
+GET {{baseUrl}}/api/courses/1/lessons
+Authorization: Bearer {{learnerToken}}
+
+
+### 3.6 Learner: Start Lesson 1
+POST {{baseUrl}}/api/progress/lessons/1/start
+Authorization: Bearer {{learnerToken}}
+
+
+### 3.7 Learner: Update Time Spent on Lesson 1 (Add 30 minutes)
+PUT {{baseUrl}}/api/progress/lessons/1/time
+Content-Type: application/json
+Authorization: Bearer {{learnerToken}}
+
+{
+  "timeSpentMinutes": 30
+}
+
+
+### 3.8 Learner: Complete Lesson 1
+POST {{baseUrl}}/api/progress/lessons/1/complete
+Authorization: Bearer {{learnerToken}}
+
+
+### ==================================================
+### 4. LEARNER TASK EXECUTION & SUBMISSION FLOW
+### ==================================================
+
+### 4.1 Learner: View Course Tasks (Course ID 1)
+GET {{baseUrl}}/api/courses/1/tasks
+Authorization: Bearer {{learnerToken}}
+
+
+### 4.2 Learner: Start Task 1
+POST {{baseUrl}}/api/progress/tasks/1/start
+Authorization: Bearer {{learnerToken}}
+
+
+### 4.3 Learner: Update Time Spent on Task 1 (Add 45 minutes)
+PUT {{baseUrl}}/api/progress/tasks/1/time
+Content-Type: application/json
+Authorization: Bearer {{learnerToken}}
+
+{
+  "timeSpentMinutes": 45
+}
+
+
+### 4.4 Learner: Submit Task 1 Output
+POST {{baseUrl}}/api/progress/tasks/1/submit
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{learnerToken}}
+
+submissionText=Completed supply model scenario simulation with 15% demand variation buffer.
+
+
+### 4.5 Learner: Complete Task 1
+POST {{baseUrl}}/api/progress/tasks/1/complete
+Authorization: Bearer {{learnerToken}}
+
+
+### 4.6 Learner: View My Overall Task Progress
+GET {{baseUrl}}/api/progress/tasks/me
+Authorization: Bearer {{learnerToken}}
+
+
+### ==================================================
+### 5. TRAINING MENTOR PORTAL & DRILL-DOWN FLOW
+### ==================================================
+
+### 5.1 Mentor: View All Onboarded Learners
+GET {{baseUrl}}/api/mentor/learners
+Authorization: Bearer {{mentorToken}}
+
+
+### 5.2 Mentor: Drill-Down Learner Overview (Learner ID 3)
+GET {{baseUrl}}/api/mentor/learners/3
+Authorization: Bearer {{mentorToken}}
+
+
+### 5.3 Mentor: View Learner Course Progress (Learner ID 3)
+GET {{baseUrl}}/api/mentor/learners/3/courses
+Authorization: Bearer {{mentorToken}}
+
+
+### 5.4 Mentor: View Learner Task Progress (Learner ID 3)
+GET {{baseUrl}}/api/mentor/learners/3/tasks
+Authorization: Bearer {{mentorToken}}
+
+
+### 5.5 Mentor: View Learner Learning Time Summary (Learner ID 3)
+GET {{baseUrl}}/api/mentor/learners/3/learning-time
+Authorization: Bearer {{mentorToken}}
+
+
+### 5.6 Mentor: View Learner Calculated Insights (Learner ID 3)
+GET {{baseUrl}}/api/mentor/learners/3/insights
+Authorization: Bearer {{mentorToken}}
+
+
+### 5.7 Mentor: Provide Feedback & Guidance to Learner
+POST {{baseUrl}}/api/mentor/feedback
+Content-Type: application/json
+Authorization: Bearer {{mentorToken}}
+
+{
+  "learnerId": 3,
+  "courseId": 1,
+  "taskId": 1,
+  "comments": "Excellent job on the supply model simulation! Your scenario analysis demonstrates a solid understanding of inventory buffers."
+}
