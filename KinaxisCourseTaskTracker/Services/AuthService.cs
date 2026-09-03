@@ -126,7 +126,6 @@ public class AuthService : IAuthService
         user.PasswordHash = PasswordHasher.HashPassword(verifyDto.SetPassword);
         user.Status = UserStatus.Active;
         user.EmailVerified = true;
-        user.UpdatedAt = DateTime.UtcNow;
 
         tokenEntity.UsedAt = DateTime.UtcNow;
 

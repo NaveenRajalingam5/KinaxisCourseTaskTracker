@@ -59,7 +59,6 @@ public class LearnerTaskProgressDto
     public DateTime? DueDate { get; set; }
     public string Status { get; set; } = string.Empty;
     public bool IsOverdue { get; set; }
-    public DateTime? StartedAt { get; set; }
     public DateTime? SubmittedAt { get; set; }
     public DateTime? CompletedAt { get; set; }
     public int TimeSpentMinutes { get; set; }

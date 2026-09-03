@@ -12,7 +12,6 @@ public class Course
     public string? Author2 { get; set; } = string.Empty;
     public bool IsActive { get; set; } = true;
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-    public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
     // Navigation properties
     public ICollection<Lesson> Lessons { get; set; } = new List<Lesson>();

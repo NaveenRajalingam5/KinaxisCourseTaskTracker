@@ -30,7 +30,6 @@ public class TaskService : ITaskService
         foreach (var task in tasks)
         {
             string status = "NotStarted";
-            DateTime? startedAt = null;
             DateTime? submittedAt = null;
             DateTime? completedAt = null;
             int timeSpent = 0;
@@ -52,7 +51,6 @@ public class TaskService : ITaskService
                     if (progress != null)
                     {
                         status = progress.Status.ToString();
-                        startedAt = progress.StartedAt;
                         submittedAt = progress.SubmittedAt;
                         completedAt = progress.CompletedAt;
                         timeSpent = progress.TimeSpentMinutes;
@@ -85,7 +83,6 @@ public class TaskService : ITaskService
                 PrerequisiteTaskTitle = task.PrerequisiteTask?.Title,
                 Status = status,
                 IsUnlocked = isUnlocked,
-                StartedAt = startedAt,
                 SubmittedAt = submittedAt,
                 CompletedAt = completedAt,
                 TimeSpentMinutes = timeSpent,
@@ -123,8 +120,7 @@ public class TaskService : ITaskService
             DueDate = createDto.DueDate,
             Priority = createDto.Priority,
             PrerequisiteTaskId = createDto.PrerequisiteTaskId,
-            IsActive = true,
-            CreatedAt = DateTime.UtcNow
+            IsActive = true
         };
 
         await _taskRepository.AddTaskAsync(task);
@@ -205,15 +201,13 @@ public class TaskService : ITaskService
             {
                 UserId = userId,
                 TaskId = taskId,
-                Status = TaskExecutionStatus.InProgress,
-                StartedAt = DateTime.UtcNow
+                Status = TaskExecutionStatus.InProgress
             };
             await _taskRepository.AddTaskProgressAsync(progress);
         }
         else if (progress.Status == TaskExecutionStatus.NotStarted)
         {
             progress.Status = TaskExecutionStatus.InProgress;
-            progress.StartedAt ??= DateTime.UtcNow;
         }
 
         await _taskRepository.SaveChangesAsync();
@@ -297,7 +291,6 @@ public class TaskService : ITaskService
             PrerequisiteTaskTitle = tp.Task.PrerequisiteTask?.Title,
             Status = tp.Status.ToString(),
             IsUnlocked = true,
-            StartedAt = tp.StartedAt,
             SubmittedAt = tp.SubmittedAt,
             CompletedAt = tp.CompletedAt,
             TimeSpentMinutes = tp.TimeSpentMinutes,

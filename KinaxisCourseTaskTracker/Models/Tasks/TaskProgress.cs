@@ -16,7 +16,6 @@ public class TaskProgress
     public int UserId { get; set; }
     public User User { get; set; } = null!;
     public TaskExecutionStatus Status { get; set; } = TaskExecutionStatus.NotStarted;
-    public DateTime? StartedAt { get; set; }
     public DateTime? SubmittedAt { get; set; }
     public DateTime? CompletedAt { get; set; }
     public int TimeSpentMinutes { get; set; } = 0;

@@ -17,7 +17,6 @@ public class TaskDto
     public string? PrerequisiteTaskTitle { get; set; }
     public string Status { get; set; } = "NotStarted";
     public bool IsUnlocked { get; set; } = true;
-    public DateTime? StartedAt { get; set; }
     public DateTime? SubmittedAt { get; set; }
     public DateTime? CompletedAt { get; set; }
     public int TimeSpentMinutes { get; set; }

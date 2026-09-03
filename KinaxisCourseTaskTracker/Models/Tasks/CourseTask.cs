@@ -19,7 +19,6 @@ public class CourseTask
     public DateTime? DueDate { get; set; }
     public TaskPriority Priority { get; set; } = TaskPriority.Medium;
     public bool IsActive { get; set; } = true;
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     // Prerequisite task (optional)
     public int? PrerequisiteTaskId { get; set; }

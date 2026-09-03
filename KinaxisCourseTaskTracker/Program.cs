@@ -18,11 +18,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
-    ?? "Server=(localdb)\\mssqllocaldb;Database=KinaxisCourseTaskTrackerDb;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True";
+    ?? "Host=localhost;Port=5432;Database=KinaxisCourseTaskTrackerDb;Username=postgres;Password=postgres";
 
-// 2. Configure Database Context (EF Core + SQL Server)
+// 2. Configure Database Context (EF Core + PostgreSQL)
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+    options.UseNpgsql(connectionString));
 
 // 3. Register Repositories in DI
 builder.Services.AddScoped<IUserRepository, UserRepository>();

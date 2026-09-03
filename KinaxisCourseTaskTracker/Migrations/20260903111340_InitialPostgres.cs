@@ -1,12 +1,13 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace KinaxisCourseTaskTracker.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialPostgres : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,16 +16,18 @@ namespace KinaxisCourseTaskTracker.Migrations
                 name: "Courses",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Level = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DurationMinutes = table.Column<int>(type: "int", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Title = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    Category = table.Column<string>(type: "text", nullable: false),
+                    Level = table.Column<string>(type: "text", nullable: false),
+                    DurationMinutes = table.Column<int>(type: "integer", nullable: false),
+                    Author1 = table.Column<string>(type: "text", nullable: true),
+                    Author2 = table.Column<string>(type: "text", nullable: true),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -35,17 +38,17 @@ namespace KinaxisCourseTaskTracker.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Department = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Role = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EmailVerified = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: false),
+                    PasswordHash = table.Column<string>(type: "text", nullable: false),
+                    Department = table.Column<string>(type: "text", nullable: false),
+                    Role = table.Column<string>(type: "text", nullable: false),
+                    Status = table.Column<string>(type: "text", nullable: false),
+                    EmailVerified = table.Column<bool>(type: "boolean", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -56,13 +59,12 @@ namespace KinaxisCourseTaskTracker.Migrations
                 name: "Lessons",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CourseId = table.Column<int>(type: "int", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Order = table.Column<int>(type: "int", nullable: false),
-                    PrerequisiteLessonId = table.Column<int>(type: "int", nullable: true)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    CourseId = table.Column<int>(type: "integer", nullable: false),
+                    Title = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    Order = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -73,24 +75,19 @@ namespace KinaxisCourseTaskTracker.Migrations
                         principalTable: "Courses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Lessons_Lessons_PrerequisiteLessonId",
-                        column: x => x.PrerequisiteLessonId,
-                        principalTable: "Lessons",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "EmailVerificationTokens",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    TokenHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ExpiresAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UsedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    TokenHash = table.Column<string>(type: "text", nullable: false),
+                    ExpiresAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UsedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -107,13 +104,13 @@ namespace KinaxisCourseTaskTracker.Migrations
                 name: "Enrollments",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    CourseId = table.Column<int>(type: "int", nullable: false),
-                    EnrolledAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CompletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    CourseId = table.Column<int>(type: "integer", nullable: false),
+                    EnrolledAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Status = table.Column<string>(type: "text", nullable: false),
+                    CompletedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -136,11 +133,11 @@ namespace KinaxisCourseTaskTracker.Migrations
                 name: "MentorAssignments",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    MentorId = table.Column<int>(type: "int", nullable: false),
-                    LearnerId = table.Column<int>(type: "int", nullable: false),
-                    AssignedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    MentorId = table.Column<int>(type: "integer", nullable: false),
+                    LearnerId = table.Column<int>(type: "integer", nullable: false),
+                    AssignedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -163,14 +160,14 @@ namespace KinaxisCourseTaskTracker.Migrations
                 name: "LessonProgresses",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    LessonId = table.Column<int>(type: "int", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StartedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CompletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    TimeSpentMinutes = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    LessonId = table.Column<int>(type: "integer", nullable: false),
+                    Status = table.Column<string>(type: "text", nullable: false),
+                    StartedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    CompletedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    TimeSpentMinutes = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -193,17 +190,17 @@ namespace KinaxisCourseTaskTracker.Migrations
                 name: "Tasks",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CourseId = table.Column<int>(type: "int", nullable: false),
-                    LessonId = table.Column<int>(type: "int", nullable: true),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DueDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Priority = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    PrerequisiteTaskId = table.Column<int>(type: "int", nullable: true)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    CourseId = table.Column<int>(type: "integer", nullable: false),
+                    LessonId = table.Column<int>(type: "integer", nullable: true),
+                    Title = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    DueDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    Priority = table.Column<string>(type: "text", nullable: false),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    PrerequisiteTaskId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -227,17 +224,41 @@ namespace KinaxisCourseTaskTracker.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Topics",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    LessonId = table.Column<int>(type: "integer", nullable: false),
+                    Title = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    Order = table.Column<int>(type: "integer", nullable: false),
+                    DurationMinutes = table.Column<int>(type: "integer", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Topics", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Topics_Lessons_LessonId",
+                        column: x => x.LessonId,
+                        principalTable: "Lessons",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Feedbacks",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    MentorId = table.Column<int>(type: "int", nullable: false),
-                    LearnerId = table.Column<int>(type: "int", nullable: false),
-                    CourseId = table.Column<int>(type: "int", nullable: true),
-                    TaskId = table.Column<int>(type: "int", nullable: true),
-                    Comments = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    MentorId = table.Column<int>(type: "integer", nullable: false),
+                    LearnerId = table.Column<int>(type: "integer", nullable: false),
+                    CourseId = table.Column<int>(type: "integer", nullable: true),
+                    TaskId = table.Column<int>(type: "integer", nullable: true),
+                    Comments = table.Column<string>(type: "text", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -270,17 +291,17 @@ namespace KinaxisCourseTaskTracker.Migrations
                 name: "TaskProgresses",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    TaskId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StartedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    SubmittedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CompletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    TimeSpentMinutes = table.Column<int>(type: "int", nullable: false),
-                    SubmissionText = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SubmissionFilePath = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    TaskId = table.Column<int>(type: "integer", nullable: false),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    Status = table.Column<string>(type: "text", nullable: false),
+                    StartedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    SubmittedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    CompletedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    TimeSpentMinutes = table.Column<int>(type: "integer", nullable: false),
+                    SubmissionText = table.Column<string>(type: "text", nullable: true),
+                    SubmissionFilePath = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -352,11 +373,6 @@ namespace KinaxisCourseTaskTracker.Migrations
                 column: "CourseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Lessons_PrerequisiteLessonId",
-                table: "Lessons",
-                column: "PrerequisiteLessonId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_MentorAssignments_LearnerId",
                 table: "MentorAssignments",
                 column: "LearnerId");
@@ -393,6 +409,11 @@ namespace KinaxisCourseTaskTracker.Migrations
                 column: "PrerequisiteTaskId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Topics_LessonId",
+                table: "Topics",
+                column: "LessonId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Users_Email",
                 table: "Users",
                 column: "Email",
@@ -419,6 +440,9 @@ namespace KinaxisCourseTaskTracker.Migrations
 
             migrationBuilder.DropTable(
                 name: "TaskProgresses");
+
+            migrationBuilder.DropTable(
+                name: "Topics");
 
             migrationBuilder.DropTable(
                 name: "Tasks");

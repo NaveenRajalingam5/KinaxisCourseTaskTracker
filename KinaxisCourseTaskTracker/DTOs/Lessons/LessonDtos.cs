@@ -12,8 +12,6 @@ public class LessonDto
     public int Order { get; set; }
     public string Status { get; set; } = "NotStarted";
     public bool IsUnlocked { get; set; } = true;
-    public DateTime? StartedAt { get; set; }
-    public DateTime? CompletedAt { get; set; }
     public int TimeSpentMinutes { get; set; }
     public List<TopicDto> Topics { get; set; } = new();
 }

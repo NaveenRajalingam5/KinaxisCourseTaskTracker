@@ -37,8 +37,6 @@ public class LessonService : ILessonService
         foreach (var lesson in lessons)
         {
             string status = "NotStarted";
-            DateTime? startedAt = null;
-            DateTime? completedAt = null;
             int timeSpent = 0;
             bool isUnlocked = true;
 
@@ -63,8 +61,6 @@ public class LessonService : ILessonService
                         if (progress != null)
                         {
                             status = progress.Status.ToString();
-                            startedAt = progress.StartedAt;
-                            completedAt = progress.CompletedAt;
                             timeSpent = progress.TimeSpentMinutes;
                         }
                     }
@@ -80,8 +76,6 @@ public class LessonService : ILessonService
                 Order = lesson.Order,
                 Status = status,
                 IsUnlocked = isUnlocked,
-                StartedAt = startedAt,
-                CompletedAt = completedAt,
                 TimeSpentMinutes = timeSpent,
                 Topics = lesson.Topics.OrderBy(t => t.Order).Select(t => new TopicDto
                 {
@@ -90,8 +84,7 @@ public class LessonService : ILessonService
                     Title = t.Title,
                     Description = t.Description,
                     Order = t.Order,
-                    DurationMinutes = t.DurationMinutes,
-                    CreatedAt = t.CreatedAt
+                    DurationMinutes = t.DurationMinutes
                 }).ToList()
             });
         }
@@ -188,15 +181,13 @@ public class LessonService : ILessonService
             {
                 UserId = userId,
                 LessonId = lessonId,
-                Status = LessonStatus.InProgress,
-                StartedAt = DateTime.UtcNow
+                Status = LessonStatus.InProgress
             };
             await _enrollmentRepository.AddLessonProgressAsync(progress);
         }
         else if (progress.Status == LessonStatus.NotStarted)
         {
             progress.Status = LessonStatus.InProgress;
-            progress.StartedAt ??= DateTime.UtcNow;
         }
 
         await _enrollmentRepository.SaveChangesAsync();
@@ -230,14 +221,12 @@ public class LessonService : ILessonService
             progress = new LessonProgress
             {
                 UserId = userId,
-                LessonId = lessonId,
-                StartedAt = DateTime.UtcNow
+                LessonId = lessonId
             };
             await _enrollmentRepository.AddLessonProgressAsync(progress);
         }
 
         progress.Status = LessonStatus.Completed;
-        progress.CompletedAt = DateTime.UtcNow;
 
         await _enrollmentRepository.SaveChangesAsync();
 

@@ -156,8 +156,7 @@ public static class DbInitializer
             Description = "Create a what-if scenario in RapidResponse to simulate a material shortage impact.",
             DueDate = DateTime.UtcNow.AddDays(7),
             Priority = TaskPriority.High,
-            IsActive = true,
-            CreatedAt = DateTime.UtcNow
+            IsActive = true
         };
         context.Tasks.Add(task1);
 

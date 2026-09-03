@@ -42,8 +42,7 @@ public class TopicService : ITopicService
             Title = createDto.Title,
             Description = createDto.Description,
             Order = createDto.Order,
-            DurationMinutes = createDto.DurationMinutes,
-            CreatedAt = DateTime.UtcNow
+            DurationMinutes = createDto.DurationMinutes
         };
 
         await _topicRepository.AddAsync(topic);
@@ -86,8 +85,7 @@ public class TopicService : ITopicService
             Title = topic.Title,
             Description = topic.Description,
             Order = topic.Order,
-            DurationMinutes = topic.DurationMinutes,
-            CreatedAt = topic.CreatedAt
+            DurationMinutes = topic.DurationMinutes
         };
     }
 }

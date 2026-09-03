@@ -25,7 +25,6 @@ public class User
     public UserStatus Status { get; set; } = UserStatus.Invited;
     public bool EmailVerified { get; set; } = false;
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-    public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
     // Navigation properties
     public ICollection<EmailVerificationToken> VerificationTokens { get; set; } = new List<EmailVerificationToken>();

@@ -41,7 +41,6 @@ public class UserService : IUserService
         user.Email = updateDto.Email;
         user.Department = updateDto.Department;
         user.Role = updateDto.Role;
-        user.UpdatedAt = DateTime.UtcNow;
 
         await _userRepository.SaveChangesAsync();
         return MapToUserDto(user);
@@ -53,7 +52,6 @@ public class UserService : IUserService
         if (user == null) return false;
 
         user.Status = status;
-        user.UpdatedAt = DateTime.UtcNow;
 
         await _userRepository.SaveChangesAsync();
         return true;

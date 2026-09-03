@@ -10,7 +10,6 @@ public class TopicDto
     public string Description { get; set; } = string.Empty;
     public int Order { get; set; }
     public int DurationMinutes { get; set; }
-    public DateTime CreatedAt { get; set; }
 }
 
 public class CreateTopicDto

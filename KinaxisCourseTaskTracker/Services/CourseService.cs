@@ -108,8 +108,7 @@ public class CourseService : ICourseService
             Author1 = createDto.Author1,
             Author2 = createDto.Author2,
             IsActive = true,
-            CreatedAt = DateTime.UtcNow,
-            UpdatedAt = DateTime.UtcNow
+            CreatedAt = DateTime.UtcNow
         };
 
         await _courseRepository.AddAsync(course);
@@ -145,7 +144,6 @@ public class CourseService : ICourseService
         course.Author1 = updateDto.Author1;
         course.Author2 = updateDto.Author2;
         course.IsActive = updateDto.IsActive;
-        course.UpdatedAt = DateTime.UtcNow;
 
         await _courseRepository.UpdateAsync(course);
         await _courseRepository.SaveChangesAsync();
@@ -173,7 +171,6 @@ public class CourseService : ICourseService
         if (course == null) return false;
 
         course.IsActive = false;
-        course.UpdatedAt = DateTime.UtcNow;
 
         await _courseRepository.UpdateAsync(course);
         await _courseRepository.SaveChangesAsync();

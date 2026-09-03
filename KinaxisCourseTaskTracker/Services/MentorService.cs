@@ -153,7 +153,6 @@ public class MentorService : IMentorService
             DueDate = tp.Task.DueDate,
             Status = tp.Status.ToString(),
             IsOverdue = tp.Task.DueDate.HasValue && tp.Task.DueDate.Value < DateTime.UtcNow && tp.Status != TaskExecutionStatus.Completed,
-            StartedAt = tp.StartedAt,
             SubmittedAt = tp.SubmittedAt,
             CompletedAt = tp.CompletedAt,
             TimeSpentMinutes = tp.TimeSpentMinutes,
